@@ -15,10 +15,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
-const pin_t leftXPin = F5;
-const pin_t leftYPin = F4;
-const pin_t rightXPin = B5;
-const pin_t rightYPin = B4;
+const pin_t leftXPin = F1;
+const pin_t leftYPin = F0;
+int8_t leftXPolarity = 1;
+int8_t leftYPolarity = 1;
+
+const pin_t rightXPin = B4;
+const pin_t rightYPin = B5;
+int8_t rightXPolarity = 1;
+int8_t rightYPolarity = 1;
+
 
 uint16_t xScale = 128;
 uint16_t yScale = 128;
@@ -33,9 +39,6 @@ float maxCursorSpeed = 0.9;
 float minCursorSpeed = 0.2;
 float maxScrollSpeed = 0.3;
 float minScrollSpeed = 0.1;
-
-int8_t xPolarity = 1;
-int8_t yPolarity = -1;
 
 uint8_t cursorTimeout = 50;
 uint16_t lastCursorTimer = 0;
@@ -63,12 +66,12 @@ void pointing_device_task(void) {
 
         if (get_mods() & MOD_MASK_GUI) {
             float scroll_speed = (get_mods() & MOD_MASK_SHIFT) ? maxScrollSpeed : minScrollSpeed;
-            report.h = xPolarity * leftxMove * scroll_speed;
-            report.v = xPolarity * leftyMove * scroll_speed;
+            report.h = leftXPolarity * leftxMove * scroll_speed;
+            report.v = rightXPolarity * leftyMove * scroll_speed;
         } else {
             float cursorSpeed = (get_mods() & MOD_MASK_SHIFT) ? maxCursorSpeed : minCursorSpeed;
-            report.x = xPolarity * leftxMove * cursorSpeed;
-            report.y = yPolarity * leftyMove * cursorSpeed;
+            report.x = leftXPolarity * leftxMove * cursorSpeed;
+            report.y = leftYPolarity * leftyMove * cursorSpeed;
         }
     }
 
@@ -79,13 +82,13 @@ void pointing_device_task(void) {
         int8_t rightyMove = (int8_t)(yperc * 127.0);
 
         if (get_mods() & MOD_MASK_GUI) {
-            float cursorSpeed = (get_mods() & MOD_MASK_SHIFT) ? maxCursorSpeed : minCursorSpeed;
-            report.x = xPolarity * rightxMove * cursorSpeed;
-            report.y = yPolarity * rightyMove * cursorSpeed;
-        } else {
             float scroll_speed = (get_mods() & MOD_MASK_SHIFT) ? maxScrollSpeed : minScrollSpeed;
-            report.h = xPolarity * rightxMove * scroll_speed;
-            report.v = xPolarity * rightyMove * scroll_speed;
+            report.h = rightXPolarity * rightxMove * scroll_speed;
+            report.v = rightYPolarity * rightyMove * scroll_speed;
+        } else {
+            float cursorSpeed = (get_mods() & MOD_MASK_SHIFT) ? maxCursorSpeed : minCursorSpeed;
+            report.x = rightXPolarity * rightxMove * cursorSpeed;
+            report.y = rightYPolarity * rightyMove * cursorSpeed;
         }
     }
 
