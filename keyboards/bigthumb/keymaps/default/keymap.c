@@ -54,10 +54,6 @@ float lowScrollSpeed = 0.005;
 uint8_t cursorTimeout = 40;
 uint16_t lastCursorTimer = 0;
 
-uint16_t xScale = 128;
-uint16_t yScale = 128;
-
-
 float get_scroll_speed(int8_t move) {
     if (abs(move) < 115) {
         return lowScrollSpeed;
@@ -69,13 +65,11 @@ float get_scroll_speed(int8_t move) {
 }
 
 // used to calculate exponential speed
-float get_cursor_speed(int8_t xMove, int8_t yMove) {
-    // 1.7 - magic number
-    return 1.7 * (xMove * xMove + yMove * yMove) / 2 / square(127);
+float get_speed(float multiplicator, int8_t xMove, int8_t yMove) {
+    return multiplicator * (xMove * xMove + yMove * yMove) / 2 / square(127);
 }
 
 // by default: left joystick for scroll, right - for pointer
-// with GUI button vice versa
 void pointing_device_task(void) {
     if (timer_elapsed(lastCursorTimer) < cursorTimeout) return;
     lastCursorTimer = timer_read();
@@ -84,23 +78,22 @@ void pointing_device_task(void) {
 
     int16_t leftXDelta = analogReadPin(leftXPin) - leftXCenter;
     int16_t leftYDelta = analogReadPin(leftYPin) - leftYCenter;
-
-    int16_t rightXDelta = analogReadPin(rightXPin) - rightXCenter;
-    int16_t rightYDelta = analogReadPin(rightYPin) - rightYCenter;
-
     if ( abs(leftXDelta) > leftxDead || abs(leftYDelta) > leftyDead ) {
-        float xperc = ONES( (float)leftXDelta / xScale);
-        float yperc = ONES( (float)leftYDelta / yScale);
+        float leftxScale = leftXDelta > 0 ? 1023 - leftXCenter : leftXCenter;
+        float leftyScale = leftYDelta > 0 ? 1023 - leftYCenter : leftYCenter;
+        float xperc = ONES( (float)leftXDelta / leftxScale);
+        float yperc = ONES( (float)leftYDelta / leftyScale);
         int8_t leftxMove = (int8_t)(xperc * 127.0);
         int8_t leftyMove = (int8_t)(yperc * 127.0);
 
-        float scrollYSpeed = get_scroll_speed(leftyMove);
-        float scrollXSpeed = get_scroll_speed(leftxMove);
+        float scrollSpeed = get_speed(0.7, leftxMove, leftyMove);
 
-        report.h = leftXPolarity * leftxMove * scrollXSpeed;
-        report.v = leftYPolarity * leftyMove * scrollYSpeed;
+        report.h = leftXPolarity * leftxMove * scrollSpeed;
+        report.v = leftYPolarity * leftyMove * scrollSpeed;
     }
 
+    int16_t rightXDelta = analogReadPin(rightXPin) - rightXCenter;
+    int16_t rightYDelta = analogReadPin(rightYPin) - rightYCenter;
     if ( abs(rightXDelta) > rightxDead || abs(rightYDelta) > rightyDead ) {
         float rightxScale = rightXDelta > 0 ? 1023 - rightXCenter : rightXCenter;
         float rightyScale = rightYDelta > 0 ? 1023 - rightYCenter : rightYCenter;
@@ -110,7 +103,7 @@ void pointing_device_task(void) {
         int8_t rightxMove = (int8_t)(xperc * 127.0);
         int8_t rightyMove = (int8_t)(yperc * 127.0);
 
-        float cursorSpeed = get_cursor_speed(rightxMove, rightyMove);
+        float cursorSpeed = get_speed(1.7, rightxMove, rightyMove);
 
         report.x = rightXPolarity * rightxMove * cursorSpeed;
         report.y = rightYPolarity * rightyMove * cursorSpeed;
