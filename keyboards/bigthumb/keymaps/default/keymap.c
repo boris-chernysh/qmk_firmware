@@ -19,8 +19,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [FN] = LAYOUT_ortho_5x14 (
             _______, KC_FN1, KC_FN2, KC_FN3, KC_FN4, KC_FN5, KC_FN6, KC_FN7, KC_FN8, KC_FN9, KC_FN10, KC_FN11, KC_FN12, _______,
             _______,_______,_______,_______,_______,_______,_______,_______,KC_MS_BTN1, KC_MS_BTN2, KC_MS_BTN3,_______,_______,_______,
-            RESET,_______,_______, KC_MS_LEFT, KC_MS_DOWN, KC_MS_UP, KC_MS_RIGHT, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT,_______,_______,_______,
-            _______,_______,_______, KC_MS_WH_LEFT, KC_MS_WH_DOWN, KC_MS_WH_UP, KC_MS_WH_RIGHT,_______,_______,_______,_______,_______,_______,_______,
+            RESET,_______,_______,_______,_______,_______,_______, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT,_______,_______,_______,
+            _______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,
             _______,_______,_______,_______, KC_MS_BTN2, KC_PSCREEN,_______,_______,_______,_______
             )
 };
@@ -53,16 +53,6 @@ float lowScrollSpeed = 0.005;
 
 uint8_t cursorTimeout = 40;
 uint16_t lastCursorTimer = 0;
-
-float get_scroll_speed(int8_t move) {
-    if (abs(move) < 115) {
-        return lowScrollSpeed;
-    } else if (abs(move) > 125) {
-        return maxScrollSpeed;
-    } else {
-        return averageScrollSpeed;
-    }
-}
 
 // used to calculate exponential speed
 float get_speed(float multiplicator, int8_t xMove, int8_t yMove) {
