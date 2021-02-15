@@ -68,8 +68,10 @@ float get_scroll_speed(int8_t move) {
     }
 }
 
+// used to calculate exponential speed
 float get_cursor_speed(int8_t xMove, int8_t yMove) {
-    return 1 * (xMove * xMove + yMove * yMove) / 2 / square(127);
+    // 1.7 - magic number
+    return 1.7 * (xMove * xMove + yMove * yMove) / 2 / square(127);
 }
 
 // by default: left joystick for scroll, right - for pointer
