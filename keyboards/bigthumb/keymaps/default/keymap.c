@@ -14,7 +14,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             KC_MEDIA_PLAY_PAUSE, KC_ESCAPE, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRACKET, KC_RBRACKET,
             KC_AUDIO_VOL_DOWN, KC_LCTRL, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE, KC_BSLASH,
             KC_AUDIO_MUTE, KC_LALT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_BSLASH, KC_DELETE,
-            MO(FN), KC_LGUI, LSFT_T(KC_ESCAPE), LCTL_T(KC_TAB), KC_MS_BTN1, KC_ENTER, MO(FN), RSFT_T(KC_SPACE), KC_BSPACE, RCTL_T(KC_TAB)
+            MO(FN), KC_LGUI, LSFT_T(KC_ESCAPE), LCTL_T(KC_TAB), KC_MS_BTN1, KC_ENTER, MO(FN), RSFT_T(KC_SPACE), KC_RCTRL, KC_BSPACE
             ),
     [FN] = LAYOUT_ortho_5x14 (
             _______, KC_FN1, KC_FN2, KC_FN3, KC_FN4, KC_FN5, KC_FN6, KC_FN7, KC_FN8, KC_FN9, KC_FN10, KC_FN11, KC_FN12, _______,
@@ -27,10 +27,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 const pin_t leftXPin = F0;
 const pin_t leftYPin = F1;
-int8_t leftXPolarity = -1;
+int8_t leftXPolarity = 1;
 int8_t leftYPolarity = -1;
-uint16_t leftxDead = 70;
-uint16_t leftyDead = 70;
+uint16_t leftxDead = 40;
+uint16_t leftyDead = 40;
 int16_t leftXCenter;
 int16_t leftYCenter;
 
@@ -38,18 +38,10 @@ const pin_t rightXPin = B4;
 const pin_t rightYPin = B5;
 int8_t rightXPolarity = 1;
 int8_t rightYPolarity = 1;
-uint16_t rightxDead = 50;
-uint16_t rightyDead = 50;
+uint16_t rightxDead = 40;
+uint16_t rightyDead = 40;
 int16_t rightXCenter;
 int16_t rightYCenter;
-
-float maxCursorSpeed = 0.23;
-float averageCursorSpeed = 0.06;
-float lowCursorSpeed = 0.03;
-
-float maxScrollSpeed = 0.03;
-float averageScrollSpeed = 0.01;
-float lowScrollSpeed = 0.005;
 
 uint8_t cursorTimeout = 40;
 uint16_t lastCursorTimer = 0;
@@ -76,7 +68,7 @@ void pointing_device_task(void) {
         int8_t leftxMove = (int8_t)(xperc * 127.0);
         int8_t leftyMove = (int8_t)(yperc * 127.0);
 
-        float scrollSpeed = get_speed(0.7, leftxMove, leftyMove);
+        float scrollSpeed = get_speed(0.3, leftxMove, leftyMove);
 
         report.h = leftXPolarity * leftxMove * scrollSpeed;
         report.v = leftYPolarity * leftyMove * scrollSpeed;
