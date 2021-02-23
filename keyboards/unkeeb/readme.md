@@ -1,3 +1,3 @@
-# BigThumb
+# Unkeeb
 
 Keyboard that exploits your thumb

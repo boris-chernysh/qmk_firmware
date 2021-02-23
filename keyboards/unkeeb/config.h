@@ -7,7 +7,7 @@
 #define PRODUCT_ID 0x5D5E
 #define DEVICE_VER 0x0001
 #define MANUFACTURER Boris Chernysh
-#define PRODUCT BigThumb
+#define PRODUCT unkeeb
 #define DESCRIPTION Cool keeb for good guys
 
 /* key matrix size */
