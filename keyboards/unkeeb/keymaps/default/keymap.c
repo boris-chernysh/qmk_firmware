@@ -11,42 +11,42 @@
 #define MOUSE 5
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [BASE] = LAYOUT_ortho_5x14 (
-            KC_NO, KC_NO, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINUS, KC_EQUAL,
-            KC_NO, KC_GRAVE, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRACKET, KC_RBRACKET,
-            KC_NO, KC_NO, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE, KC_BSLASH,
-            KC_NO, KC_NO, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_BSLASH, KC_NO,
+    [BASE] = layout_two_halfs (
+            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+            XXXXXXX, KC_GRAVE, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRACKET, KC_RBRACKET,
+            XXXXXXX, XXXXXXX, KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCOLON, KC_QUOTE, KC_BSLASH,
+            XXXXXXX, XXXXXXX, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMMA, KC_DOT, KC_SLASH, KC_BSLASH, XXXXXXX,
             KC_BSPACE, LT(FN, KC_ESC), LT(LMOD, KC_SPACE), LT(MOUSE, KC_TAB), KC_ENTER, KC_ENTER, LT(MOUSE, KC_TAB), LT(RMOD, KC_SPACE), LT(NAV, KC_ESC), KC_BSPACE
             ),
-    [FN] = LAYOUT_ortho_5x14 (
+    [FN] = layout_two_halfs (
             _______, KC_FN1, KC_FN2, KC_FN3, KC_FN4, KC_FN5, KC_FN6, KC_FN7, KC_FN8, KC_FN9, KC_FN10, KC_FN11, KC_FN12, _______,
             _______, _______, _______, _______, _______, KC_AUDIO_VOL_UP, _______,  _______, _______, _______, _______, _______, _______, _______,
-            RESET, _______, KC_MEDIA_PREV_TRACK, KC_MEDIA_PLAY_PAUSE, KC_MEDIA_NEXT_TRACK, KC_AUDIO_MUTE, _______, _______, KC_PSCREEN, _______, _______, _______, _______, _______,
+            RESET, _______, KC_MEDIA_PREV_TRACK, KC_MEDIA_PLAY_PAUSE, KC_MEDIA_NEXT_TRACK, KC_AUDIO_MUTE, _______, KC_PSCREEN, _______, _______, _______, _______, _______, _______,
             _______, _______, _______, _______, _______, KC_AUDIO_VOL_DOWN, _______, _______, _______, _______, _______, _______, _______, _______,
             _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
             ),
-    [NAV] = LAYOUT_ortho_5x14 (
-            _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-            _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-            _______, _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, _______, _______, _______,
-            _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-            _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    [NAV] = layout_right_half (
+            _______, _______, _______, _______, _______, _______, _______,
+            _______, _______, _______, _______, _______, _______, _______,
+            KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, _______, _______, _______,
+            _______, _______, _______, _______, _______, _______, _______,
+            _______, _______, _______, _______, _______
             ),
-    [RMOD] = LAYOUT_ortho_5x14 (
-            _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-            _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_CAPS, _______, _______, _______, _______,
-            _______, _______, _______, _______, _______, _______, _______, _______, KC_RSFT, KC_RCTL, KC_RALT, KC_RGUI, _______, _______,
-            _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-            _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    [RMOD] = layout_right_half (
+            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+            KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINUS, KC_EQUAL,
+            XXXXXXX, KC_RSFT, KC_RCTL, KC_RALT, KC_RGUI, XXXXXXX, XXXXXXX,
+            XXXXXXX, XXXXXXX, KC_CAPS, KC_DEL, XXXXXXX, XXXXXXX, XXXXXXX,
+            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
             ),
-    [LMOD] = LAYOUT_ortho_5x14 (
-            _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-            _______, _______, _______, _______, KC_CAPS, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-            _______, _______, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, _______, _______, _______, _______, _______, _______, _______, _______,
-            _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-            _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    [LMOD] = layout_left_half (
+            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+            XXXXXXX, XXXXXXX, KC_1, KC_2, KC_3, KC_4, KC_5,
+            XXXXXXX, XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,
+            XXXXXXX, XXXXXXX, XXXXXXX, KC_DEL, KC_CAPS, XXXXXXX, XXXXXXX,
+            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
             ),
-    [MOUSE] = LAYOUT_ortho_5x14 (
+    [MOUSE] = layout_two_halfs (
             _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
             _______, _______, _______, _______, _______, _______, KC_MS_BTN3, KC_MS_BTN3, _______, _______, _______, _______, _______, _______,
             _______, _______, _______, _______, _______, _______, KC_MS_BTN2, KC_MS_BTN2, _______, _______, _______, _______, _______, _______,
