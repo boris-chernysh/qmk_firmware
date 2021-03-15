@@ -57,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 const pin_t leftXPin = F0;
 const pin_t leftYPin = F1;
-int8_t leftXPolarity = 1;
+int8_t leftXPolarity = -1;
 int8_t leftYPolarity = -1;
 uint16_t leftxDead = 40;
 uint16_t leftyDead = 40;
@@ -98,10 +98,15 @@ void pointing_device_task(void) {
         int8_t leftxMove = (int8_t)(xperc * 127.0);
         int8_t leftyMove = (int8_t)(yperc * 127.0);
 
-        float scrollSpeed = 0.1 * get_speed(leftxMove, leftyMove);
-
-        report.h = leftXPolarity * leftxMove * scrollSpeed;
-        report.v = leftYPolarity * leftyMove * scrollSpeed;
+        if (layer_state_is(MOUSE)) {
+            float scrollSpeed = 0.1 * get_speed(leftxMove, leftyMove);
+            report.h = leftXPolarity * leftxMove * scrollSpeed;
+            report.v = leftYPolarity * leftyMove * scrollSpeed;
+        } else {
+            float cursorSpeed = 1.7 * get_speed(leftxMove, leftyMove);
+            report.x = leftXPolarity * leftxMove * cursorSpeed;
+            report.y = leftYPolarity * leftyMove * cursorSpeed;
+        }
     }
 
     int16_t rightXDelta = analogReadPin(rightXPin) - rightXCenter;
@@ -115,10 +120,15 @@ void pointing_device_task(void) {
         int8_t rightxMove = (int8_t)(xperc * 127.0);
         int8_t rightyMove = (int8_t)(yperc * 127.0);
 
-        float cursorSpeed = 1.7 * get_speed(rightxMove, rightyMove);
-
-        report.x = rightXPolarity * rightxMove * cursorSpeed;
-        report.y = rightYPolarity * rightyMove * cursorSpeed;
+        if (layer_state_is(MOUSE)) {
+            float cursorSpeed = 0.1 * get_speed(rightxMove, rightyMove);
+            report.h = rightXPolarity * rightxMove * cursorSpeed;
+            report.v = rightYPolarity * rightyMove * cursorSpeed;
+        } else {
+            float scrollSpeed = 1.7 * get_speed(rightxMove, rightyMove);
+            report.x = rightXPolarity * rightxMove * scrollSpeed;
+            report.y = rightYPolarity * rightyMove * scrollSpeed;
+        }
     }
 
     pointing_device_set_report(report);
